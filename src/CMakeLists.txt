@@ -146,18 +146,12 @@ else()
 endif()
 
 add_hpx_component(
-    vandouken
-    ESSENTIAL
-    SOURCES ${VANDOUKEN_LIBRARY_SOURCES}
-            ${VANDOUKEN_COMPONENT_SOURCES}
-    HEADERS ${VANDOUKEN_LIBRARY_HEADERS}
-        ${VANDOUKEN_COMPONENT_HEADERS}
-    DEPENDENCIES
-        ${LOCAL_LIBGEODECOMP_LINK_LIB}
-        #GLU
-        ${ADDITIONAL_LIBS}
-    FOLDER "vanDouken Library"
-)
+  vandouken
+  ESSENTIAL
+  SOURCES ${VANDOUKEN_LIBRARY_SOURCES} ${VANDOUKEN_COMPONENT_SOURCES}
+  HEADERS ${VANDOUKEN_LIBRARY_HEADERS} ${VANDOUKEN_COMPONENT_HEADERS}
+  DEPENDENCIES ${LOCAL_LIBGEODECOMP_LINK_LIB} ${ADDITIONAL_LIBS}
+  FOLDER "vanDouken Library")
 
 if(NOT HPX_NATIVE_MIC)
     qt5_use_modules(vandouken_component Core Gui OpenGL Svg Widgets)
@@ -173,48 +167,29 @@ set(VANDOUKEN_SERVER_SOURCES
 
 add_hpx_executable(
     vandouken_server
-    ESSENTIAL
-    SOURCES ${VANDOUKEN_SERVER_SOURCES}
-    #HEADERS ${VANDOUKEN_SERVER_HEADERS}
-    COMPONENT_DEPENDENCIES
-        vandouken
-    DEPENDENCIES
-        ${ADDITIONAL_LIBS}
-        ${LOCAL_LIBGEODECOMP_LINK_LIB}
-        ${QT_LIBRARIES}
+    ESSENTIAL SOURCES ${VANDOUKEN_SERVER_SOURCES}
+    COMPONENT_DEPENDENCIES vandouken
+    DEPENDENCIES ${ADDITIONAL_LIBS} ${LOCAL_LIBGEODECOMP_LINK_LIB} ${QT_LIBRARIES} ${OpenCV_LIBS} geodecomp
     FOLDER "vanDouken Server Application"
 )
 
-set(VANDOUKEN_GUI_SOURCES
-    gui.cpp
-)
-set(
-    VANDOUKEN_GUI_HEADERS
-)
+set(VANDOUKEN_GUI_SOURCES gui.cpp)
+set(VANDOUKEN_GUI_HEADERS)
 
 add_hpx_executable(
     vandouken_gui
     ESSENTIAL
     SOURCES ${VANDOUKEN_GUI_SOURCES}
     HEADERS ${VANDOUKEN_GUI_HEADERS}
-    COMPONENT_DEPENDENCIES
-        vandouken
-    DEPENDENCIES
-        ${ADDITIONAL_LIBS}
-        ${LOCAL_LIBGEODECOMP_LINK_LIB}
-        ${QT_LIBRARIES}
+    COMPONENT_DEPENDENCIES vandouken
+    DEPENDENCIES ${ADDITIONAL_LIBS} ${QT_LIBRARIES} ${OpenCV_LIBS} geodecomp
     FOLDER "vanDouken GUI Application"
 )
 
 add_hpx_executable(
-    vandouken_controlgui
-    ESSENTIAL
-    SOURCES controlgui_main.cpp
-    COMPONENT_DEPENDENCIES
-        vandouken
-    DEPENDENCIES
-        ${ADDITIONAL_LIBS}
-        ${LOCAL_LIBGEODECOMP_LINK_LIB}
-        ${QT_LIBRARIES}
-    FOLDER "vanDouken GUI Application"
-)
+  vandouken_controlgui
+  ESSENTIAL
+  SOURCES controlgui_main.cpp
+  COMPONENT_DEPENDENCIES vandouken
+  DEPENDENCIES ${ADDITIONAL_LIBS} ${LOCAL_LIBGEODECOMP_LINK_LIB} ${QT_LIBRARIES} ${OpenCV_LIBS} geodecomp
+  FOLDER "vanDouken GUI Application" )
