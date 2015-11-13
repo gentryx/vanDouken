@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,7 +8,7 @@
 #define VANDOUKEN_PARTICLE_HPP
 
 #include <libgeodecomp/geometry/topologies.h>
-
+#include <hpx/traits/is_bitwise_serializable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 
@@ -115,6 +115,7 @@ namespace vandouken {
         std::vector<float> colors;
     };
 }
-BOOST_IS_BITWISE_SERIALIZABLE(vandouken::Particle)
+
+HPX_IS_BITWISE_SERIALIZABLE(vandouken::Particle)
 
 #endif

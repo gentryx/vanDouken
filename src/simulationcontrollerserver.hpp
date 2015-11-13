@@ -1,11 +1,13 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef VANDOUKEN_SIMULATIONCONTROLLERSERVER_HPP
 #define VANDOUKEN_SIMULATIONCONTROLLERSERVER_HPP
+
+#include <libgeodecomp/communication/hpxserialization.h>
 
 #include "simulator.hpp"
 
@@ -21,7 +23,7 @@ namespace vandouken {
         typedef LibGeoDecomp::Coord<2> CoordType;
 
         typedef
-            hpx::components::server::create_component_action1<
+            hpx::components::server::create_component_action<
                 SimulationControllerServer,
                 const CoordType>
             CreateComponentAction;
@@ -42,7 +44,7 @@ namespace vandouken {
 
         void stop()
         {
-            simulator.stop();
+            std::cerr << "STOP not implemented!\n";
         }
 
         HPX_DEFINE_COMPONENT_ACTION(

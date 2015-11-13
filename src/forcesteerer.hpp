@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -110,7 +110,7 @@ namespace vandouken {
             ar & coord;
             qDelta = QVector2D(coord[0], coord[1]);
         }
-        
+
         template <typename ARCHIVE>
         void save(ARCHIVE& ar, unsigned) const
         {
@@ -123,7 +123,7 @@ namespace vandouken {
             ar & coord;
         }
 
-        BOOST_SERIALIZATION_SPLIT_MEMBER()
+        HPX_SERIALIZATION_SPLIT_MEMBER()
 
         QVector2D qOrigin;
         QVector2D qDelta;

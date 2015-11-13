@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,7 +12,7 @@
 #include <hpx/hpx.hpp>
 #include <hpx/include/components.hpp>
 
-#include <boost/serialization/split_free.hpp>
+#include <libgeodecomp/communication/hpxserialization.h>
 
 #include <QImage>
 #include <QBuffer>
@@ -30,22 +30,22 @@ namespace vandouken
         {
             BOOST_ASSERT(false);
         }
-        typedef 
-            hpx::components::server::create_component_action1<
+        typedef
+            hpx::components::server::create_component_action<
                 vandouken::MainWindowServer
-              , vandouken::MainWindow *
+            , std::ptrdiff_t
             >
             CreateAction;
 
-        typedef 
-            hpx::components::server::create_component_action1<
+        typedef
+            hpx::components::server::create_component_action<
                 vandouken::MainWindowServer
-              , vandouken::MainWindow * const
+            , std::ptrdiff_t const
             >
             ConstCreateAction;
 
-        MainWindowServer(MainWindow *mainWindow) :
-            mainWindow(mainWindow)
+        MainWindowServer(std::ptrdiff_t mainWindow) :
+            mainWindow(reinterpret_cast<MainWindow*>(mainWindow))
         {}
 
         void stateChanged(int, bool);
@@ -66,7 +66,7 @@ void load(ARCHIVE& ar, QImage & image, unsigned)
     if(size > 0)
     {
         QByteArray ba(size, 0);
-        ar & boost::serialization::make_array(ba.data(), size);
+        ar & hpx::serialization::make_array(ba.data(), size);
         QBuffer buffer(&ba);
         buffer.open(QIODevice::ReadOnly);
         image.load(&buffer, "PNG");
@@ -84,11 +84,12 @@ void save(ARCHIVE& ar, QImage const & image, unsigned)
     ar & size;
     if(size > 0)
     {
-        ar & boost::serialization::make_array(ba.data(), ba.size());
+        ar & hpx::serialization::make_array(ba.data(), ba.size());
     }
 }
 
-BOOST_SERIALIZATION_SPLIT_FREE(QImage)
+HPX_SERIALIZATION_SPLIT_FREE(QImage)
+
 
 HPX_REGISTER_BASE_LCO_WITH_VALUE_DECLARATION(QImage, QImageLco)
 

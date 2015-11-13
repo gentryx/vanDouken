@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,15 +16,12 @@
 #include <hpx/lcos/local/spinlock.hpp>
 #include <hpx/util/high_resolution_timer.hpp>
 
-#include <boost/serialization/access.hpp>
 #include <libgeodecomp/io/parallelwriter.h>
-#include <libgeodecomp/communication/serialization.h>
+#include <libgeodecomp/communication/hpxserialization.h>
 
 namespace vandouken {
     class GridCollector : public LibGeoDecomp::ParallelWriter<Cell>
     {
-        friend class boost::serialization::access;
-
     public:
         typedef boost::shared_ptr<Particles> BufferType;
 
@@ -71,7 +68,7 @@ namespace vandouken {
         template<typename ARCHIVE>
         void serialize(ARCHIVE& ar, unsigned)
         {
-            ar & boost::serialization::base_object<LibGeoDecomp::ParallelWriter<Cell> >(*this);
+            ar & hpx::serialization::base_object<LibGeoDecomp::ParallelWriter<Cell> >(*this);
         }
 
         std::size_t nextId;

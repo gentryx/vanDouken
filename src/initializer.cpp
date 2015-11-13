@@ -1,18 +1,18 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "initializer.hpp"
-#include <libgeodecomp/communication/serialization.h>
+#include <libgeodecomp/communication/hpxserialization.h>
 
-#include <hpx/util/portable_binary_iarchive.hpp>
-#include <hpx/util/portable_binary_oarchive.hpp>
+#include <hpx/runtime/serialization/basic_archive.hpp>
 
+#define png_infopp_NULL (png_infopp)NULL
+#define int_p_NULL (int*)NULL
 
 #include <boost/shared_ptr.hpp>
-
 #include <boost/gil/gil_all.hpp>
 #include <boost/gil/extension/io/png_dynamic_io.hpp>
 #include <boost/gil/extension/io/png_io.hpp>

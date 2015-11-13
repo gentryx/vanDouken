@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,10 +12,8 @@
 
 #include <libgeodecomp/storage/grid.h>
 #include <libgeodecomp/geometry/region.h>
-#include <libgeodecomp/communication/serialization.h>
 
 #include <hpx/include/components.hpp>
-#include <boost/serialization/shared_ptr.hpp>
 
 namespace vandouken
 {
@@ -39,22 +37,22 @@ namespace vandouken
             BOOST_ASSERT(false);
         }
 
-        typedef 
-            hpx::components::server::create_component_action1<
+        typedef
+            hpx::components::server::create_component_action<
                 vandouken::ParticleSteererServer
-              , vandouken::ParticleSteerer *
+            , std::ptrdiff_t
             >
             CreateAction;
 
-        typedef 
-            hpx::components::server::create_component_action1<
+        typedef
+            hpx::components::server::create_component_action<
                 vandouken::ParticleSteererServer
-              , vandouken::ParticleSteerer * const
+              , std::ptrdiff_t const
             >
             ConstCreateAction;
 
-        ParticleSteererServer(ParticleSteerer *steerer) :
-            collector(steerer)
+        ParticleSteererServer(std::ptrdiff_t steerer) :
+            collector(reinterpret_cast<ParticleSteerer*>(steerer))
         {}
 
         void steer(const SteererFunctor& f);

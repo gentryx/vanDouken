@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -43,7 +43,7 @@ namespace vandouken {
         }
 
         timer.restart();
-        
+
         // create list of futures
         std::vector<
             hpx::lcos::future<std::pair<unsigned, RegionBuffer> >
@@ -61,10 +61,10 @@ namespace vandouken {
 
         // write future to class
         collectingFuture = hpx::when_all(futures).then(
-            HPX_STD_BIND(
+            hpx::util::bind(
                 &GridProvider::setNextGrid,
                 this,
-                HPX_STD_PLACEHOLDERS::_1
+                hpx::util::placeholders::_1
             )
         );
 
@@ -94,7 +94,7 @@ namespace vandouken {
         BufferType res;
 
 
-        BOOST_FOREACH(hpx::lcos::future<pair_type>& bufferFuture, buffers)
+        for (hpx::lcos::future<pair_type>& bufferFuture: buffers)
         {
             std::pair<unsigned, RegionBuffer> regionBuffer = bufferFuture.get();
             if(regionBuffer.second.region.empty())
@@ -156,10 +156,10 @@ namespace vandouken {
 
             // combine list of futures to one future
             collectingFuture = hpx::when_all(futures).then(
-                HPX_STD_BIND(
+                hpx::util::bind(
                     &GridProvider::setNextGrid,
                     this,
-                    HPX_STD_PLACEHOLDERS::_1
+                    hpx::util::placeholders::_1
                 )
             );
 

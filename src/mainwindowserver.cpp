@@ -22,7 +22,7 @@ namespace vandouken
             Q_ARG(bool, callReset)
         );
     }
-        
+
     QImage MainWindowServer::getImage()
     {
         return mainWindow->getImage();

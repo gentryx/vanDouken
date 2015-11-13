@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -125,7 +125,7 @@ namespace vandouken {
             image->save(&buffer, "PNG");
             int size = ba.size();
             ar & size;
-            ar & boost::serialization::make_array(ba.data(), ba.size());
+            ar & hpx::serialization::make_array(ba.data(), ba.size());
 #endif
             ar & clear;
         }
@@ -139,14 +139,14 @@ namespace vandouken {
             {
 #if !defined(__MIC)
                 QByteArray ba(size, 0);
-                ar & boost::serialization::make_array(ba.data(), size);
+                ar & hpx::serialization::make_array(ba.data(), size);
                 QBuffer buffer(&ba);
                 buffer.open(QIODevice::ReadOnly);
                 image.reset(new QImage);
                 image->load(&buffer, "PNG");
 #else
                 std::vector<char> data(size);
-                ar & boost::serialization::make_array(&data[0], size);
+                ar & hpx::serialization::make_array(&data[0], size);
                 using boost::iostreams::basic_array_source;
                 using boost::iostreams::stream;
                 basic_array_source<char> input_source(&data[0], data.size());
@@ -157,7 +157,7 @@ namespace vandouken {
             ar & clear;
         }
 
-        BOOST_SERIALIZATION_SPLIT_MEMBER()
+        HPX_SERIALIZATION_SPLIT_MEMBER()
     };
 }
 

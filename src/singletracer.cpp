@@ -1,9 +1,8 @@
+//  Copyright (c) 2012-2013 Thomas Heller
+//  Copyright (c) 2012-2015 Andreas Schaefer
+//
+//  Distributed under the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "singletracer.hpp"
-
-#include <boost/serialization/export.hpp>
-
-#include <hpx/util/portable_binary_iarchive.hpp>
-#include <hpx/util/portable_binary_oarchive.hpp>
-
-BOOST_CLASS_EXPORT_GUID(vandouken::SingleTracer, "vandoukenSingleTracer");
+#include <hpx/runtime/serialization/basic_archive.hpp>

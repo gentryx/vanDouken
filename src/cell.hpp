@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,13 +15,10 @@
 #include <libgeodecomp/geometry/topologies.h>
 #include <libgeodecomp/geometry/stencils.h>
 
-#include <boost/serialization/is_bitwise_serializable.hpp>
-#include <boost/serialization/split_member.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/foreach.hpp>
-
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
+
+#include <hpx/runtime/serialization/array.hpp>
 
 #define DEFAULT_PARTICLE_LIFETIME 300
 #define FADE_IN_OUT 40
@@ -30,8 +27,9 @@ namespace vandouken {
 
 class Cell
 {
-    friend class CanvasWriter;
 public:
+    friend class CanvasWriter;
+
     class Particle
     {
     public:
@@ -209,7 +207,8 @@ public:
         ar & numParticles;
         if(numParticles > 0)
         {
-            ar & boost::serialization::make_array(particles, numParticles);
+            ar & hpx::serialization::make_array(particles, numParticles);
+            // ar & boost::serialization::make_array(particles, numParticles);
         }
     }
 
@@ -341,7 +340,6 @@ private:
 };
 }
 
-//BOOST_IS_BITWISE_SERIALIZABLE(LibGeoDecomp::Cell)
-BOOST_IS_BITWISE_SERIALIZABLE(vandouken::Cell::Particle)
+HPX_IS_BITWISE_SERIALIZABLE(vandouken::Cell::Particle)
 
 #endif

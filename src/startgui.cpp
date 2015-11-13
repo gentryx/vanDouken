@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -61,15 +61,14 @@ namespace vandouken {
             hpx::get_runtime().get_thread_pool("main_pool");
 
         main_pool->get_io_service().post(
-            HPX_STD_BIND(
+            hpx::util::bind(
                 &::runWidget,
                 finishedPromise,
                 mainWindowPromise,
                 simulation.getInitializer()->gridDimensions(),
                 gridProvider,
                 steererProvider,
-                guiMode
-            )
+                guiMode)
         );
         
         MainWindow *mainWindow(mainWindowFuture.get());
@@ -77,7 +76,8 @@ namespace vandouken {
         if(guiMode & MainWindow::Mode::control)
         {
             std::string name(VANDOUKEN_MAIN_WINDOW_NAME);
-            serverId = hpx::components::new_<MainWindowServer>(hpx::find_here(), mainWindow).get();
+            serverId = hpx::components::new_<MainWindowServer>(
+                hpx::find_here(), reinterpret_cast<std::ptrdiff_t>(mainWindow)).get();
             hpx::agas::register_name_sync(name, serverId);
             MSG("registered: " << name << "\n");
         }

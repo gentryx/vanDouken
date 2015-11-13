@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,12 +10,8 @@
 #include "gridcollectorserver.hpp"
 #include "particleconverter.hpp"
 
-#include <libgeodecomp/communication/serialization.h>
-#include <boost/serialization/export.hpp>
-
 #include <hpx/hpx.hpp>
-#include <hpx/util/portable_binary_iarchive.hpp>
-#include <hpx/util/portable_binary_oarchive.hpp>
+#include <hpx/runtime/serialization/basic_archive.hpp>
 
 namespace vandouken {
     GridCollector::GridCollector(unsigned period) :
@@ -40,7 +36,8 @@ namespace vandouken {
                 std::string name(VANDOUKEN_GRIDCOLLECTOR_NAME);
                 name += "/";
                 name += boost::lexical_cast<std::string>(rank);
-                collectorServerId = hpx::components::new_<GridCollectorServer>(hpx::find_here(), this).get();
+                collectorServerId = hpx::components::new_<GridCollectorServer>(
+                    hpx::find_here(), reinterpret_cast<std::ptrdiff_t>(this)).get();
                 hpx::agas::register_name_sync(name, collectorServerId);
                 std::cout << "registered: " << name << "\n";
             }
@@ -81,12 +78,13 @@ namespace vandouken {
 
             for (RegionType::StreakIterator i = validRegion.beginStreak();
                  i != validRegion.endStreak(); ++i) {
-                GridType::ConstIterator src = grid.at(i->origin);
                 //it->second->resize(i->length());
+                LibGeoDecomp::Coord<DIM> coord = i->origin;
                 for(int j = 0; j < i->length(); ++j)
                 {
-                    ParticleConverter()(*src, globalDimensions, *it->second.buffer);
-                    ++src;
+                    Cell cell = grid.get(coord);
+                    ParticleConverter()(cell, globalDimensions, *it->second.buffer);
+                    ++coord.x();
                 }
             }
 
@@ -158,5 +156,3 @@ namespace vandouken {
         */
     }
 }
-
-BOOST_CLASS_EXPORT_GUID(vandouken::GridCollector, "vandoukenGridCollector");

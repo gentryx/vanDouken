@@ -1,5 +1,5 @@
 //  Copyright (c) 2012-2013 Thomas Heller
-//  Copyright (c) 2012-2013 Andreas Schaefer
+//  Copyright (c) 2012-2015 Andreas Schaefer
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,7 +15,6 @@
 #include <libgeodecomp/geometry/region.h>
 
 #include <hpx/include/components.hpp>
-#include <boost/serialization/shared_ptr.hpp>
 
 namespace vandouken
 {
@@ -30,22 +29,22 @@ namespace vandouken
             BOOST_ASSERT(false);
         }
 
-        typedef 
-            hpx::components::server::create_component_action1<
+        typedef
+            hpx::components::server::create_component_action<
                 vandouken::GridCollectorServer
-              , vandouken::GridCollector *
+            , std::ptrdiff_t
             >
             CreateAction;
 
-        typedef 
-            hpx::components::server::create_component_action1<
+        typedef
+            hpx::components::server::create_component_action<
                 vandouken::GridCollectorServer
-              , vandouken::GridCollector * const
+              , std::ptrdiff_t const
             >
             ConstCreateAction;
 
-        GridCollectorServer(GridCollector *collector) :
-            collector(collector)
+        GridCollectorServer(std::ptrdiff_t collector) :
+            collector(reinterpret_cast<GridCollector*>(collector))
         {}
 
         std::size_t addGridConsumer();
