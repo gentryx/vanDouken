@@ -16,7 +16,7 @@
 #include <boost/program_options/variables_map.hpp>
 
 namespace vandouken {
-    SimulationController runSimulation(boost::program_options::variables_map& vm);
+    // SimulationController runSimulation(boost::program_options::variables_map vm = boost::program_options::variables_map());
 }
 
 #endif

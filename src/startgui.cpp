@@ -43,7 +43,7 @@ namespace {
 
 namespace vandouken {
     void startGUI(
-        boost::program_options::variables_map& vm,
+        boost::program_options::variables_map vm,
         const SimulationController& simulation,
         vandouken::GridProvider *gridProvider,
         vandouken::SteeringProvider *steererProvider,
@@ -70,7 +70,7 @@ namespace vandouken {
                 steererProvider,
                 guiMode)
         );
-        
+
         MainWindow *mainWindow(mainWindowFuture.get());
         hpx::id_type serverId;
         if(guiMode & MainWindow::Mode::control)

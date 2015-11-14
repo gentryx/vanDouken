@@ -122,5 +122,3 @@ namespace vandouken {
         return init;
     }
 }
-
-BOOST_CLASS_EXPORT_GUID(vandouken::Initializer, "vandoukenInitializer");

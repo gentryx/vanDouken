@@ -22,7 +22,7 @@ namespace vandouken {
             name += boost::lexical_cast<std::string>(i);
 
             MSG("trying to resolve " << name << "\n");
-            
+
             while(serverIds[i] == hpx::naming::invalid_id)
             {
                 hpx::naming::id_type id;

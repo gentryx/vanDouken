@@ -11,8 +11,6 @@
 #include "cell.hpp"
 #include "forceprimitives.hpp"
 
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/shared_ptr.hpp>
 #include <libgeodecomp/io/simpleinitializer.h>
 
 namespace vandouken {

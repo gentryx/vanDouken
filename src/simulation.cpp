@@ -8,11 +8,11 @@
 #include <boost/program_options.hpp>
 
 namespace vandouken {
-    SimulationController runSimulation(boost::program_options::variables_map& vm)
-    {
-        LibGeoDecomp::Coord<2> simulationDim(
-            vm["dimX"].as<int>(),
-            vm["dimY"].as<int>());
-        return SimulationController(simulationDim);
-    }
+    // SimulationController runSimulation(boost::program_options::variables_map vm)
+    // {
+    //     LibGeoDecomp::Coord<2> simulationDim(
+    //         vm["dimX"].as<int>(),
+    //         vm["dimY"].as<int>());
+    //     return SimulationController(simulationDim);
+    // }
 }

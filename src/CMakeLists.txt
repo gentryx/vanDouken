@@ -173,7 +173,7 @@ add_hpx_executable(
     FOLDER "vanDouken Server Application"
 )
 
-set(VANDOUKEN_GUI_SOURCES gui.cpp)
+set(VANDOUKEN_GUI_SOURCES gui.cpp initializer.cpp)
 set(VANDOUKEN_GUI_HEADERS)
 
 add_hpx_executable(
@@ -181,10 +181,11 @@ add_hpx_executable(
     ESSENTIAL
     SOURCES ${VANDOUKEN_GUI_SOURCES}
     HEADERS ${VANDOUKEN_GUI_HEADERS}
-    COMPONENT_DEPENDENCIES vandouken
-    DEPENDENCIES ${ADDITIONAL_LIBS} ${QT_LIBRARIES} ${OpenCV_LIBS} geodecomp
+    # COMPONENT_DEPENDENCIES vandouken
+    DEPENDENCIES ${ADDITIONAL_LIBS} ${QT_LIBRARIES} ${OpenCV_LIBS} ${OpenCV_LIBS} png geodecomp
     FOLDER "vanDouken GUI Application"
 )
+qt5_use_modules(vandouken_gui_exe Core Gui OpenGL Svg Widgets)
 
 add_hpx_executable(
   vandouken_controlgui
